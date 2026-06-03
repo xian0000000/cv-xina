@@ -166,7 +166,6 @@ async function sendToBackend(endpoint, data) {
       body:    JSON.stringify(data),
     });
   } catch (err) {
-    console.warn('[tracker] Failed to send to backend:', err.message);
   }
 }
 
@@ -182,9 +181,7 @@ async function pushToFirebase(data) {
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify(data),
     });
-    console.log('[tracker] Buffered to Firebase');
   } catch (err) {
-    console.warn('[tracker] Firebase push failed:', err.message);
   }
 }
 
@@ -202,8 +199,6 @@ async function drainFirebaseToBackend() {
 
     if (!data || Object.keys(data).length === 0) return; // kosong, skip
 
-    console.log(`[tracker] Found ${Object.keys(data).length} buffered visits in Firebase`);
-
     // 2. Kirim bulk ke backend
     const visits = Object.entries(data).map(([key, val]) => ({ _fbKey: key, ...val }));
     await sendToBackend(CONFIG.flushEndpoint, { visits });
@@ -215,9 +210,6 @@ async function drainFirebaseToBackend() {
       body:    JSON.stringify(null),
     });
 
-    console.log('[tracker] Firebase buffer drained & cleared');
-
   } catch (err) {
-    console.warn('[tracker] Firebase drain failed:', err.message);
   }
 }
