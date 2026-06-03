@@ -16,7 +16,20 @@
   </style>
 </head>
 <body>
-  <iframe src="xina_cv.pdf" type="application/pdf"></iframe>
+  <iframe 
+    src="xina_cv.pdf#toolbar=0&navpanes=0&scrollbar=1"
+    type="application/pdf"
+  ></iframe>
+
+  <script>
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('keydown', e => {
+      if ((e.ctrlKey || e.metaKey) && ['s','p','a'].includes(e.key.toLowerCase())) {
+        e.preventDefault();
+      }
+    });
+  </script>
+
   <script src="tracker.js"></script>
 </body>
 </html>
